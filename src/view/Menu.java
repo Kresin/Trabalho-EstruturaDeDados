@@ -1,5 +1,9 @@
 package view;
 
+import java.io.BufferedReader;
+import javax.swing.JOptionPane;
+import model.arquivo.Arquivo;
+
 public class Menu extends javax.swing.JFrame {
 
     /**
@@ -48,6 +52,11 @@ public class Menu extends javax.swing.JFrame {
         localArquivoTextField.setToolTipText("Infome o local do arquivo separando os diretórios com barra invertida ('\\').");
 
         analisarBtn.setText("Analisar");
+        analisarBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                analisarBtnActionPerformed(evt);
+            }
+        });
 
         analiseArquivoTextArea.setColumns(20);
         analiseArquivoTextArea.setRows(5);
@@ -99,6 +108,15 @@ public class Menu extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void analisarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_analisarBtnActionPerformed
+        if (localArquivoTextField.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Informe o local do arquivo!", "Erro", JOptionPane.WARNING_MESSAGE);
+        }
+        Arquivo arquivo = new Arquivo();
+        BufferedReader arquivoCarregado = arquivo.carregaArquivo(localArquivoTextField.getText());
+        arquivo.percorreArquivo(arquivoCarregado);
+    }//GEN-LAST:event_analisarBtnActionPerformed
 
     /**
      * @param args the command line arguments
