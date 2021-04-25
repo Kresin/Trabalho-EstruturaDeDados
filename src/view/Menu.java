@@ -11,6 +11,7 @@ public class Menu extends javax.swing.JFrame {
      */
     public Menu() {
         initComponents();
+        localArquivoTextField.setText("C:\\Users\\gabri\\OneDrive\\Documents\\FURB\\Semestre III\\Estrutura de dados\\Teste.txt");
     }
 
     /**
