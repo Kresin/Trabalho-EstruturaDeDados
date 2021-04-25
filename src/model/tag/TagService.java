@@ -50,11 +50,11 @@ public class TagService {
     }
     
     public boolean verificaTagComposta(String tag) {
-        return false;
+        return tag.trim().contains(" ");
     }
     
     public String extraiTagComposta(String tag) {
-        return "";
+        return tag.substring(0, tag.indexOf(" ")) + ">";
     }
 
 }
