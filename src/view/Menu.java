@@ -3,6 +3,8 @@ package view;
 import java.io.BufferedReader;
 import javax.swing.JOptionPane;
 import model.arquivo.Arquivo;
+import model.listaTag.ListaTag;
+import model.tag.Tag;
 
 public class Menu extends javax.swing.JFrame {
 
@@ -11,7 +13,7 @@ public class Menu extends javax.swing.JFrame {
      */
     public Menu() {
         initComponents();
-        localArquivoTextField.setText("C:\\Users\\gabri\\OneDrive\\Documents\\FURB\\Semestre III\\Estrutura de dados\\Teste.txt");
+        localArquivoTextField.setText("D:\\Workshop\\Texto.txt");
     }
 
     /**
@@ -114,9 +116,19 @@ public class Menu extends javax.swing.JFrame {
         if (localArquivoTextField.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Informe o local do arquivo!", "Erro", JOptionPane.WARNING_MESSAGE);
         }
+        ListaTag listaTag = new ListaTag();
         Arquivo arquivo = new Arquivo();
         BufferedReader arquivoCarregado = arquivo.carregaArquivo(localArquivoTextField.getText());
-        arquivo.percorreArquivo(arquivoCarregado);
+        arquivo.percorreArquivo(arquivoCarregado, listaTag);
+
+        /*while (!listaTag.estaVazia()) { //A ideia é colocar os valores na tabela e ir removendo da listaTag
+            Tag tag = listaTag.obterUltimo().getInfo();
+            Object[] row = {tag.getNome() , tag.getNumInvokes()};
+            //tagsTable.addRow();
+            listaTag.retirar(tag);
+        }*/
+
+
     }//GEN-LAST:event_analisarBtnActionPerformed
 
     /**
