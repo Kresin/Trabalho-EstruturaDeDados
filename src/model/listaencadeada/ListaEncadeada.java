@@ -1,5 +1,7 @@
 package model.listaencadeada;
 
+import model.tag.TagContabilizada;
+
 public class ListaEncadeada<T> {
 
     private NoLista<T> primeiro;
@@ -27,6 +29,15 @@ public class ListaEncadeada<T> {
         }
         primeiro = novo;
     }
+    
+    public void inserirTagContabilizada(TagContabilizada tag) {
+        TagContabilizada tagContabilizada = buscarTagContabilizada(tag);
+        if (tagContabilizada != null) {
+            tagContabilizada.setQuantidade(tagContabilizada.getQuantidade() + 1);
+        } else {
+            inserir((T) new TagContabilizada(tag.getNome(), 1));
+        }
+    }
 
     /**
      * Busca um nó na estrutura de dados que estja armazenando o dado fornecido
@@ -46,6 +57,23 @@ public class ListaEncadeada<T> {
         }
 
         return null;
+    }
+    
+    public TagContabilizada buscarTagContabilizada(TagContabilizada tag) {
+        if (estaVazia()) {
+            return null;
+        }
+        NoLista<TagContabilizada> tagContabilizada = (NoLista<TagContabilizada>) primeiro;
+        
+        while (tagContabilizada != null && !tagContabilizada.getInfo().getNome().equals(tag.getNome())) {            
+            tagContabilizada = tagContabilizada.getProximo();
+        }
+        
+        if (tagContabilizada != null) {
+            return tagContabilizada.getInfo();
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -67,13 +95,17 @@ public class ListaEncadeada<T> {
             }
         }
     }
+    
+    public void retirarUltimo(T valor) {
+        NoLista<T> p = buscar(valor);
+    }
 
     /**
      * Retorna o último elemento da lista encadeada
      *
      * @return Nó armazenado na última posição
      */
-    private NoLista<T> obterUltimo() {
+    public NoLista<T> obterUltimo() {
         NoLista<T> ultimo = primeiro;
 
         NoLista<T> p = primeiro;
@@ -98,41 +130,19 @@ public class ListaEncadeada<T> {
         }
     }
 
-    /**
-     * Remove todos os itens da lista
-     */
-    public void liberar() {
-        NoLista<T> p = primeiro;
-        while (p != null) {
-            NoLista<T> backup = p.getProximo();
-            p.setProximo(null);
-            p.setAnterior(null);
-
-            p = backup;
-        }
-    }
-
-    /**
-     * Retorna representação textual da lista
-     */
-    public String toString() {
-        StringBuilder resultado = new StringBuilder();
-        NoLista<T> p = primeiro;
-
-        while (p != null) {
-            if (p != primeiro) {
-                resultado.append(",");
-            }
-
-            resultado.append(p.getInfo().toString());
-            p = p.getProximo();
-        }
-
-        return resultado.toString();
-    }
-
     public boolean estaVazia() {
         return primeiro == null;
+    }
+    
+    public int tamanhoPilha() {
+        int tamanho = 0;
+        NoLista<T> p = primeiro;
+        
+        while (p != null) {    
+            tamanho ++;
+            p = p.getProximo();
+        }
+        return tamanho;
     }
 
 }

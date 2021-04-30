@@ -2,9 +2,15 @@ package view;
 
 import java.io.BufferedReader;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import model.arquivo.Arquivo;
 import model.listaTag.ListaTag;
+import model.pilha.PilhaMensagensDeErro;
+import model.pilha.PilhaTags;
+import model.pilha.PilhaTagsContabilizadas;
 import model.tag.Tag;
+import model.tag.TagContabilizada;
+import model.tag.TagService;
 
 public class Menu extends javax.swing.JFrame {
 
@@ -13,7 +19,7 @@ public class Menu extends javax.swing.JFrame {
      */
     public Menu() {
         initComponents();
-        localArquivoTextField.setText("D:\\Workshop\\Texto.txt");
+        localArquivoTextField.setText("C:\\Users\\gabri\\OneDrive\\Documents\\FURB\\Semestre III\\Estrutura de dados\\Teste.txt");
     }
 
     /**
@@ -119,15 +125,48 @@ public class Menu extends javax.swing.JFrame {
         ListaTag listaTag = new ListaTag();
         Arquivo arquivo = new Arquivo();
         BufferedReader arquivoCarregado = arquivo.carregaArquivo(localArquivoTextField.getText());
-        arquivo.percorreArquivo(arquivoCarregado, listaTag);
 
+        PilhaTags<Tag> pilhaTags = arquivo.percorreArquivo(arquivoCarregado);
+        PilhaMensagensDeErro<String> mensagensDeErro = pilhaTags.getMensagensDeErro();
+        StringBuilder analiseArquivo = new StringBuilder(); 
+
+        if (!mensagensDeErro.estaVazia()) {
+            while (!mensagensDeErro.estaVazia()) {
+                analiseArquivo.append(mensagensDeErro.inversePop()).append("\n");
+            }
+        }
+
+        if (!pilhaTags.estaVazia()) {
+            while (!pilhaTags.estaVazia()) {
+                analiseArquivo.append("\nFalta tag final para a tag ").append(pilhaTags.pop().getNome());
+            }
+        }
+
+        if (!analiseArquivo.toString().isEmpty()) {
+            analiseArquivoTextArea.setText(analiseArquivo.toString());
+        } else {
+            PilhaTagsContabilizadas<TagContabilizada> tagsContabilizadas = pilhaTags.getTagsContabilizadas();
+            if (!tagsContabilizadas.estaVazia()) {
+                DefaultTableModel dtm = new DefaultTableModel(tagsContabilizadas.getTamanhoPilha(), 0);
+                dtm.addColumn("Tag");
+                dtm.addColumn("Número de ocorrências");
+                tagsTable.setModel(dtm);
+                
+                int tamanhoPilha = tagsContabilizadas.getTamanhoPilha();
+                TagService tagService = new TagService();
+                for (int i = 0; i < tamanhoPilha; i++) {
+                    TagContabilizada tagContabilizada = tagsContabilizadas.pop();
+                    tagsTable.setValueAt(tagService.extraiTag(tagContabilizada.getNome()), i, 0);
+                    tagsTable.setValueAt(tagContabilizada.getQuantidade(), i, 1);
+                }
+            }
+        }
         /*while (!listaTag.estaVazia()) { //A ideia é colocar os valores na tabela e ir removendo da listaTag
-            Tag tag = listaTag.obterUltimo().getInfo();
-            Object[] row = {tag.getNome() , tag.getNumInvokes()};
-            //tagsTable.addRow();
-            listaTag.retirar(tag);
+        Tag tag = listaTag.obterUltimo().getInfo();
+        Object[] row = {tag.getNome() , tag.getNumInvokes()};
+        //tagsTable.addRow();
+        listaTag.retirar(tag);
         }*/
-
 
     }//GEN-LAST:event_analisarBtnActionPerformed
 

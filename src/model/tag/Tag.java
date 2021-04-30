@@ -29,7 +29,7 @@ public class Tag {
         this.tagDeFechamento = tagDeFechamento;
     }
 
-    public boolean isEstaFechada() {
+    public boolean estaFechada() {
         return estaFechada;
     }
 
