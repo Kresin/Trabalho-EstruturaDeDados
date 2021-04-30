@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.arquivo.Arquivo;
-import model.listaTag.ListaTag;
 import model.pilha.PilhaMensagensDeErro;
 import model.pilha.PilhaTags;
 import model.pilha.PilhaTagsContabilizadas;
@@ -19,7 +18,6 @@ public class Menu extends javax.swing.JFrame {
      */
     public Menu() {
         initComponents();
-        localArquivoTextField.setText("C:\\Users\\gabri\\OneDrive\\Documents\\FURB\\Semestre III\\Estrutura de dados\\Teste.txt");
     }
 
     /**
@@ -121,14 +119,16 @@ public class Menu extends javax.swing.JFrame {
     private void analisarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_analisarBtnActionPerformed
         if (localArquivoTextField.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Informe o local do arquivo!", "Erro", JOptionPane.WARNING_MESSAGE);
+            return;
         }
-        ListaTag listaTag = new ListaTag();
+
+        analiseArquivoTextArea.setText("");
         Arquivo arquivo = new Arquivo();
         BufferedReader arquivoCarregado = arquivo.carregaArquivo(localArquivoTextField.getText());
 
         PilhaTags<Tag> pilhaTags = arquivo.percorreArquivo(arquivoCarregado);
         PilhaMensagensDeErro<String> mensagensDeErro = pilhaTags.getMensagensDeErro();
-        StringBuilder analiseArquivo = new StringBuilder(); 
+        StringBuilder analiseArquivo = new StringBuilder();
 
         if (!mensagensDeErro.estaVazia()) {
             while (!mensagensDeErro.estaVazia()) {
@@ -138,7 +138,7 @@ public class Menu extends javax.swing.JFrame {
 
         if (!pilhaTags.estaVazia()) {
             while (!pilhaTags.estaVazia()) {
-                analiseArquivo.append("\nFalta tag final para a tag ").append(pilhaTags.pop().getNome());
+                analiseArquivo.append("Falta tag final para a tag ").append(pilhaTags.pop().getNome()).append("\n");
             }
         }
 
@@ -151,7 +151,7 @@ public class Menu extends javax.swing.JFrame {
                 dtm.addColumn("Tag");
                 dtm.addColumn("Número de ocorrências");
                 tagsTable.setModel(dtm);
-                
+
                 int tamanhoPilha = tagsContabilizadas.getTamanhoPilha();
                 TagService tagService = new TagService();
                 for (int i = 0; i < tamanhoPilha; i++) {
@@ -161,12 +161,6 @@ public class Menu extends javax.swing.JFrame {
                 }
             }
         }
-        /*while (!listaTag.estaVazia()) { //A ideia é colocar os valores na tabela e ir removendo da listaTag
-        Tag tag = listaTag.obterUltimo().getInfo();
-        Object[] row = {tag.getNome() , tag.getNumInvokes()};
-        //tagsTable.addRow();
-        listaTag.retirar(tag);
-        }*/
 
     }//GEN-LAST:event_analisarBtnActionPerformed
 

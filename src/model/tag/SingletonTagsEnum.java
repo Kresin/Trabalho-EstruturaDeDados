@@ -1,5 +1,8 @@
 package model.tag;
 
+/**
+ * Enumeração contendo as tags do tipo Singleton
+ */
 public enum SingletonTagsEnum {
 
     META("<meta>"),

@@ -12,9 +12,6 @@ public class PilhaTagsContabilizadas<T> implements Pilha<T> {
         tags.inserirTagContabilizada((TagContabilizada) info);
     }
 
-    /*public void push(Tag info) {
-        tags.inserirTagContabilizada((Tag)info);
-    }*/
     @Override
     public T pop() {
         T valor;
@@ -26,9 +23,6 @@ public class PilhaTagsContabilizadas<T> implements Pilha<T> {
 
     @Override
     public T peek() {
-        if (estaVazia()) {
-            //throw new PilhaVaziaExpetion();
-        }
         return tags.getPrimeiro().getInfo();
     }
 
