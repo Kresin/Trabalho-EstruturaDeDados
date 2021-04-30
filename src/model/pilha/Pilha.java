@@ -1,7 +1,7 @@
 package model.pilha;
 
 public interface Pilha<T> {
-    
+
     void push(T v);
 
     T pop();
@@ -10,6 +10,4 @@ public interface Pilha<T> {
 
     boolean estaVazia();
 
-    void liberar();
-    
 }

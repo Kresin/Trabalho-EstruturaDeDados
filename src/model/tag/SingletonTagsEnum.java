@@ -14,7 +14,7 @@ public enum SingletonTagsEnum {
     LINK("<link>"),
     PARAM("<param>"),
     SOURCE("<source>"),
-    DOCKTYPE("<!DOCKTYPE>");
+    DOCTYPE("<!DOCTYPE>");
     
     private final String value;
 
