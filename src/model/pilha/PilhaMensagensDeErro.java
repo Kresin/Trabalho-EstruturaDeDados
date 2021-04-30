@@ -20,6 +20,11 @@ public class PilhaMensagensDeErro<T> implements Pilha<T> {
         return valor;
     }
 
+    /**
+     * Remove o último valor da pilha.
+     * 
+     * @return
+     */
     public T inversePop() {
         T valor;
         valor = inversePeek();
@@ -30,16 +35,15 @@ public class PilhaMensagensDeErro<T> implements Pilha<T> {
 
     @Override
     public T peek() {
-        if (estaVazia()) {
-            //
-        }
         return erros.getPrimeiro().getInfo();
     }
 
+    /**
+     * Obtém o último valor da pilha.
+     * 
+     * @return
+     */
     public T inversePeek() {
-        if (estaVazia()) {
-            //
-        }
         return erros.obterUltimo().getInfo();
     }
 

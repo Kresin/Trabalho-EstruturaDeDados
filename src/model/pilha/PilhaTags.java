@@ -30,13 +30,13 @@ public class PilhaTags<T> implements Pilha<T> {
                 pop();
             }
         } else {
+            if (tagService.verificaTagComposta(tagAtual.getNome())) {
+                    tagAtual.setNome(tagService.extraiTagComposta(tagAtual.getNome()));
+                }
             if (tagService.verificaSingletonTag(tagAtual.getNome())) {
                 TagContabilizada tagContabilizada = new TagContabilizada(tagAtual.getNome(), 0);
                 tagsContabilizadas.push(tagContabilizada);
             } else {
-                if (tagService.verificaTagComposta(tagAtual.getNome())) {
-                    tagAtual.setNome(tagService.extraiTagComposta(tagAtual.getNome()));
-                }
                 tags.inserir((T) tagAtual);
             }
         }
@@ -53,19 +53,12 @@ public class PilhaTags<T> implements Pilha<T> {
 
     @Override
     public T peek() {
-        if (estaVazia()) {
-            //throw new PilhaVaziaExpetion();
-        }
         return tags.getPrimeiro().getInfo();
     }
 
     @Override
     public boolean estaVazia() {
         return tags.estaVazia();
-    }
-
-    public int getQuantidadeTagsDoTipo(String tipo) {
-        return 0;
     }
 
     public PilhaTagsContabilizadas<TagContabilizada> getTagsContabilizadas() {

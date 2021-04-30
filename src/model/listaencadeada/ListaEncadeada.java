@@ -30,6 +30,11 @@ public class ListaEncadeada<T> {
         primeiro = novo;
     }
     
+    /**
+     * Insere um objeto do tipo TagContabilizada em uma pilha de TagContabilizada.
+     * 
+     * @param tag Tag a ser adicionada.
+     */
     public void inserirTagContabilizada(TagContabilizada tag) {
         TagContabilizada tagContabilizada = buscarTagContabilizada(tag);
         if (tagContabilizada != null) {
@@ -59,6 +64,14 @@ public class ListaEncadeada<T> {
         return null;
     }
     
+    /**
+     * Busca um objeto do tipo TagContabilizada em uma lista de TagContabilizada.
+     * Caso o objeto fornecido por parâmetro não seja encontrado, é retornado null
+     * no lugar.
+     * 
+     * @param tag  Objeto a ser buscado na lista.
+     * @return Objeto encontrado.
+     */
     public TagContabilizada buscarTagContabilizada(TagContabilizada tag) {
         if (estaVazia()) {
             return null;
@@ -96,10 +109,6 @@ public class ListaEncadeada<T> {
         }
     }
     
-    public void retirarUltimo(T valor) {
-        NoLista<T> p = buscar(valor);
-    }
-
     /**
      * Retorna o último elemento da lista encadeada
      *
@@ -118,22 +127,19 @@ public class ListaEncadeada<T> {
     }
 
     /**
-     * Exibe o conteúdo da lista encadeada começando a exibir primeiro a partir
-     * do último elemento
+     * Veridica se a lista está vazia.
+     * 
+     * @return Valor booleano indicando se a lista está vazia.
      */
-    public void exibirOrdemInversa() {
-        NoLista<T> p = obterUltimo();
-
-        while (p != null) {
-            System.out.println(p.getInfo());
-            p = p.getAnterior();
-        }
-    }
-
     public boolean estaVazia() {
         return primeiro == null;
     }
     
+    /**
+     * Conta quantos registros existem na pilha.
+     * 
+     * @return Quantidade de elementos.
+     */
     public int tamanhoPilha() {
         int tamanho = 0;
         NoLista<T> p = primeiro;
